@@ -1,0 +1,44 @@
+/* Card styles for cart items */
+.card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(0, 0, 0, .08)), var(--bg);
+  border: 1px solid rgba(148, 163, 184, .18);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin: 1rem 0; /* Space between cards */
+  transition: transform .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* Card header styles */
+.card__header {
+  margin-bottom: .5rem;
+}
+
+/* Card content styles */
+.card__content {
+  margin-bottom: .5rem;
+}
+
+/* Ensure card is responsive */
+.cart__item {
+  max-width: 60%; /* Set max width to 60% */
+  margin: 0 auto; /* Center the card */
+}
+
+/* Cart actions styles */
+.cart__actions {
+  display: flex;
+  justify-content: center; /* Center the button */
+  margin-top: 1rem; /* Add space above the button */
+}
+
+/* Order Now button styles */
+.order-now {
+  display: block; /* Make it a block element */
+  margin: 2rem auto; /* Center it with margin */
+  text-align: center; /* Center the text */
+}

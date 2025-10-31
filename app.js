@@ -5,6 +5,8 @@ const errorController = require("./controllers/error");
 const sequelize = require("./utils/database");
 const Cart = require("./models/cart");
 const CartItem = require("./models/cart-item");
+const Order = require("./models/order");
+const OrderItem = require("./models/order-item");
 
 const Product = require("./models/product");
 const User = require("./models/user");
@@ -40,7 +42,9 @@ User.hasOne(Cart);
 Cart.belongsTo(User);
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
-
+Order.belongsTo(User);
+User.hasMany(Order);
+Order.belongsToMany(Product, { through: OrderItem });
 
 
 //You can add { force: true } inside sync() to drop and recreate tables
@@ -56,6 +60,9 @@ sequelize
     return user;
   })
   .then((user) => {
+    return user.createCart();
+  })
+  .then(() => {
     app.listen(3000);
   })
   .catch((err) => {
