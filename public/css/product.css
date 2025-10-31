@@ -1,0 +1,201 @@
+:root{
+  --bg: #0f172a;               /* slate-900 */
+  --panel: #111827;            /* near-slate */
+  --text: #e5e7eb;             /* gray-200 */
+  --muted: #a1a1aa;            /* zinc-400 */
+  --border: #1f2937;           /* slate-800 */
+  --input-bg: #0b1220;
+  --ring: #22d3ee;             /* cyan-400 */
+  --accent: #22d3ee;
+  --danger: #ef4444;           /* red-500 */
+  --success: #22c55e;          /* green-500 */
+  --cta: #f59e0b;              /* amber-500 */
+  --shadow: 0 10px 30px rgba(3,7,18,.45);
+  --radius: 12px;
+}
+
+@media (prefers-color-scheme: light){
+  :root{
+    --bg: #f8fafc;
+    --panel: #ffffff;
+    --text: #0f172a;
+    --muted: #475569;
+    --border: #e5e7eb;
+    --input-bg: #ffffff;
+    --shadow: 0 8px 24px rgba(2,6,23,.10);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
+  background: radial-gradient(1000px 700px at -10% -20%, rgba(34,211,238,.06), transparent 55%) var(--bg);
+  color: var(--text);
+}
+
+/* --- Form Card --- */
+.product-form{
+  width: min(34rem, 92%);
+  margin: 2.25rem auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+@media (min-width: 640px){
+  .product-form{ padding: 2rem; }
+}
+
+.form-title{
+  margin: 0 0 1rem 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+/* --- Controls --- */
+.form-control{
+  margin: 1rem 0 1.1rem;
+}
+
+.form-control label{
+  display: block;
+  font-size: .92rem;
+  font-weight: 700;
+  margin-bottom: .45rem;
+  color: var(--text);
+}
+
+.form-control input,
+.form-control textarea,
+.form-control select{
+  display: block;
+  width: 100%;
+  background: var(--input-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .8rem .9rem;
+  font: inherit;
+  line-height: 1.4;
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease, transform .06s ease;
+}
+
+.form-control input::placeholder,
+.form-control textarea::placeholder{ color: var(--muted); }
+
+.form-control input:hover,
+.form-control textarea:hover,
+.form-control select:hover{
+  border-color: rgba(148,163,184,.6); /* slate-400-ish */
+}
+
+.form-control input:focus-visible,
+.form-control textarea:focus-visible,
+.form-control select:focus-visible{
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 4px rgba(34,211,238,.25);
+  transform: translateY(-1px);
+}
+
+/* Native validation feedback */
+.form-control input:invalid[required],
+.form-control textarea:invalid[required],
+.form-control select:invalid[required]{
+  border-color: rgba(239,68,68,.65);
+}
+.form-control input:invalid[required]:focus-visible,
+.form-control textarea:invalid[required]:focus-visible,
+.form-control select:invalid[required]:focus-visible{
+  box-shadow: 0 0 0 4px rgba(239,68,68,.22);
+}
+
+.hint{
+  margin: .45rem 0 0;
+  font-size: .82rem;
+  color: var(--muted);
+}
+
+/* Optional explicit state helpers */
+.is-error input,
+.is-error textarea,
+.is-error select{ border-color: var(--danger); }
+.is-success input,
+.is-success textarea,
+.is-success select{ border-color: var(--success); }
+
+.error-text{
+  margin-top: .45rem;
+  color: var(--danger);
+  font-size: .82rem;
+}
+
+/* Disabled state */
+.form-control input:disabled,
+.form-control textarea:disabled,
+.form-control select:disabled{
+  opacity: .7;
+  cursor: not-allowed;
+}
+
+/* --- Actions --- */
+.form-actions{
+  display: flex;
+  gap: .6rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn{
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  padding: .7rem 1rem;
+  font-weight: 800;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease;
+  user-select: none;
+  will-change: transform;
+}
+
+.btn:focus-visible{
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.btn:active{ transform: translateY(0); }
+
+/* Primary (filled) */
+.btn-primary{
+  background: linear-gradient(180deg, #22d3ee, #06b6d4);
+  color: #0b1220;
+  box-shadow: 0 10px 24px rgba(34,211,238,.28);
+}
+.btn-primary:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(34,211,238,.35);
+}
+
+/* Ghost (quiet) */
+.btn-ghost{
+  background: transparent;
+  color: var(--text);
+  border-color: rgba(148,163,184,.35);
+}
+.btn-ghost:hover{
+  background: rgba(148,163,184,.10);
+  border-color: rgba(148,163,184,.55);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  * { transition: none !important; }
+}
+

@@ -1,0 +1,141 @@
+:root{
+  --bg: #0f172a;                 /* slate-900 */
+  --bg-grad: linear-gradient(180deg,#111827,#0f172a);
+  --text: #e5e7eb;               /* gray-200 */
+  --muted: #a1a1aa;              /* zinc-400 */
+  --link: #e5e7eb;
+  --accent: #22d3ee;             /* cyan-400 */
+  --cta-bg: #f59e0b;             /* amber-500 */
+  --cta-text: #111827;           /* gray-900 */
+  --focus: #22d3ee;
+  --shadow: 0 6px 18px rgba(2,6,23,.35);
+  --radius: 14px;
+}
+
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#ffffff;
+    --bg-grad: linear-gradient(180deg,#ffffff,#f8fafc);
+    --text:#0f172a;
+    --muted:#475569;
+    --link:#0f172a;
+    --cta-bg:#0ea5e9;            /* sky-500 */
+    --cta-text:#ffffff;
+    --shadow: 0 6px 18px rgba(15,23,42,.12);
+  }
+}
+
+*{ box-sizing: border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 800px at 10% -20%, rgba(34,211,238,.06), transparent 60%),
+    var(--bg);
+}
+
+/* ===== Header (your existing markup) ===== */
+.main-header{
+  width:100%;
+  position: sticky;
+  top:0;
+  z-index:100;
+  background: var(--bg-grad);
+  backdrop-filter: saturate(140%) blur(8px);
+  box-shadow: var(--shadow);
+  border-bottom: 1px solid rgba(148,163,184,.12);
+}
+
+.main-header__nav{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: .75rem 1rem;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  min-height: 64px;
+}
+
+.main-header__item-list{
+  display:flex;
+  gap:.75rem;
+  align-items:center;
+  justify-content:center;
+  list-style:none;
+  margin:0;
+  padding:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.main-header__item-list::-webkit-scrollbar{ display:none; }
+
+.main-header__item a{
+  position: relative;
+  display:inline-block;
+  padding:.55rem .9rem;
+  text-decoration:none;
+  color:var(--link);
+  border-radius:10px;
+  font-weight:600;
+  letter-spacing:.2px;
+  transition: color .2s ease, background .2s ease, transform .2s ease;
+}
+
+/* Underline reveal */
+.main-header__item a::after{
+  content:"";
+  position:absolute;
+  left:.9rem; right:.9rem; bottom:.35rem;
+  height:2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .22s ease;
+}
+
+.main-header__item a:hover,
+.main-header__item a:active{
+  background: rgba(34,211,238,.08);
+  color: var(--text);
+}
+.main-header__item a:hover::after{ transform: scaleX(1); }
+
+.main-header__item a.active{
+  color: var(--text);
+  background: rgba(34,211,238,.10);
+}
+.main-header__item a.active::after{ transform: scaleX(1); }
+
+.main-header__item a:focus-visible{
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ===== Page title (your <h1>) ===== */
+h1{
+  max-width: 900px;
+  margin: 12vh auto 0;
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid rgba(148,163,184,.18);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Optional subtle helper text if you add a <p> later */
+p.muted{
+  max-width: 720px;
+  margin: .75rem auto 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce){
+  *{ transition: none !important; }
+}
