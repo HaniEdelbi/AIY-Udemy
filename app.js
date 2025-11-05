@@ -9,8 +9,11 @@ const mongoose = require("mongoose");
 const app = express();
 
 const adminRoutes = require("./routes/admin");
+const login = require("./routes/auth");
+
 const shopRoutes = require("./routes/shop");
 const user = require("./models/user");
+const authRoutes = require ("./routes/auth")
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -27,8 +30,12 @@ app.use((req, res, next) => {
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+app.use(login);
+
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
+
+
 
 app.use(errorController.getPNF);
 
@@ -36,21 +43,21 @@ mongoose
   .connect(
     "mongodb+srv://HaniEdelbi:hani54321@udemyaiy.b3jjitl.mongodb.net/?appName=UdemyAIY"
   )
-  .then(result => {
-    User.findOne().then(user => {
+  .then((result) => {
+    User.findOne().then((user) => {
       if (!user) {
         const user = new User({
-          name: 'Hani',
-          email: 'hani@test.com',
+          name: "Hani",
+          email: "hani@test.com",
           cart: {
-            items: []
-          }
+            items: [],
+          },
         });
         user.save();
       }
     });
     app.listen(3000);
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err);
   });

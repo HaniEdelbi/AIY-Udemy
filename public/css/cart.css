@@ -1,44 +1,298 @@
-/* Card styles for cart items */
+/* ---------- Card container ---------- */
+.cart__list {
+  display: grid;
+  gap: 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* Make cards full width on mobile, readable max on desktop */
+.cart__item {
+  margin: 0;
+  max-width: 820px;
+  width: 100%;
+  justify-self: center;
+}
+
+/* ---------- Card ---------- */
 .card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(0, 0, 0, .08)), var(--bg);
-  border: 1px solid rgba(148, 163, 184, .18);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 1rem;
-  margin: 1rem 0; /* Space between cards */
-  transition: transform .2s ease;
+  position: relative;
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.18)),
+    var(--bg, #0b1220);
+  border: 1px solid rgba(148,163,184,.20);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.04) inset,
+    0 8px 24px rgba(2, 6, 23, .35);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  backdrop-filter: blur(6px);
 }
 
 .card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  border-color: rgba(94,234,212,.35);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.05) inset,
+    0 14px 36px rgba(2, 6, 23, .45);
 }
 
-/* Card header styles */
+/* Layout inside the card */
+.card__inner {
+  display: grid;
+  grid-template-columns: 1fr auto; /* content | actions */
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ---------- Header / Title ---------- */
 .card__header {
-  margin-bottom: .5rem;
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  margin: 0;
 }
 
-/* Card content styles */
+.cart__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+.cart__subtitle {
+  margin: 0;
+  font-size: .85rem;
+  opacity: .7;
+}
+
+/* thin divider */
+.card__divider {
+  height: 1px;
+  margin: .75rem 0 1rem;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(148,163,184,.25),
+    transparent
+  );
+  border: 0;
+}
+
+/* ---------- Content ---------- */
 .card__content {
-  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin: 0;
 }
 
-/* Ensure card is responsive */
-.cart__item {
-  max-width: 60%; /* Set max width to 60% */
-  margin: 0 auto; /* Center the card */
+/* quantity pill */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .28rem .6rem;
+  font-size: .85rem;
+  font-weight: 600;
+  border-radius: 999px;
+  color: #0b1220;
+  background: linear-gradient(180deg, #fde68a, #fbbf24);
+  box-shadow: 0 2px 8px rgba(251,191,36,.35);
 }
 
-/* Cart actions styles */
+.badge::before {
+  content: "Qty";
+  opacity: .8;
+  font-weight: 700;
+}
+
+/* Optional data text */
+.meta {
+  opacity: .8;
+  font-size: .9rem;
+}
+
+/* ---------- Actions ---------- */
 .cart__actions {
   display: flex;
-  justify-content: center; /* Center the button */
-  margin-top: 1rem; /* Add space above the button */
+  gap: .75rem;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-/* Order Now button styles */
+.cart__actions .btn {
+  min-width: 90px;
+}
+
+/* Delete as "quiet ghost" button (keeps your existing .btn styles working) */
+.btn--danger {
+  background: transparent;
+  border: 1px solid rgba(248,113,113,.45);
+  color: rgb(248,113,113);
+  box-shadow: none;
+}
+.btn--danger:hover {
+  background: rgba(248,113,113,.12);
+  border-color: rgba(248,113,113,.75);
+}
+
+/* ---------- Order Now ---------- */
 .order-now {
-  display: block; /* Make it a block element */
-  margin: 2rem auto; /* Center it with margin */
-  text-align: center; /* Center the text */
+  display: block;
+  margin: 2rem auto 0;
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 720px) {
+  .card__inner {
+    grid-template-columns: 1fr; /* stack */
+    gap: .75rem;
+  }
+  .cart__actions {
+    justify-content: stretch;
+  }
+  .cart__actions .btn {
+    width: 100%;
+  }
+}
+/* -------- Quantity controls (add-on) -------- */
+.qty {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.qty__form { margin: 0; }
+
+/* round buttons to match your card style */
+.qty__btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.05rem;
+  line-height: 1;
+  border: 1px solid rgba(148,163,184,.35);
+  background: transparent;
+  color: rgba(226,232,240,.9);
+  box-shadow: 0 4px 16px rgba(2, 6, 23, .25);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+  cursor: pointer;
+}
+
+.qty__btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(94,234,212,.45);
+  box-shadow: 0 8px 24px rgba(2, 6, 23, .35);
+}
+
+.qty__btn:active { transform: translateY(0); }
+
+/* minus = subtle ghost */
+.qty__btn--dec:hover {
+  background: rgba(148,163,184,.10);
+}
+
+/* plus = warm accent to match the badge */
+.qty__btn--inc {
+  border-color: rgba(251,191,36,.7);
+  background: linear-gradient(180deg, #fde68a, #fbbf24);
+  color: #0b1220;
+  box-shadow: 0 6px 16px rgba(251,191,36,.35);
+}
+.qty__btn--inc:hover { box-shadow: 0 10px 24px rgba(251,191,36,.45); }
+
+/* disabled state */
+.qty__btn[disabled] {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* if you don't already have .badge from before, keep this: */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .28rem .6rem;
+  font-size: .85rem;
+  font-weight: 600;
+  border-radius: 999px;
+  color: #0b1220;
+  background: linear-gradient(180deg, #fde68a, #fbbf24);
+  box-shadow: 0 2px 8px rgba(251,191,36,.35);
+}
+.badge::before { content: "Qty"; opacity: .8; font-weight: 700; }
+
+
+/* ===== Orders list (layout like cart cards) ===== */
+.orders__list {
+  display: grid;
+  gap: 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* Empty state */
+.orders__empty {
+  opacity: .8;
+  text-align: center;
+}
+
+/* Each order uses the same card visuals via .card */
+.order-card {
+  padding: 1rem 1.25rem; /* complement your .card padding */
+}
+
+/* Order header (just the id line in your markup) */
+.order__id {
+  margin: 0 0 .75rem 0;
+  font-size: 1rem;
+  font-weight: 800;
+  display: inline-block;
+  padding: .28rem .6rem;
+  border-radius: 999px;
+  color: #0b1220;
+  background: linear-gradient(180deg, #99f6e4, #5eead4); /* mint-teal pill */
+  box-shadow: 0 2px 8px rgba(94,234,212,.35);
+}
+
+/* Products inside an order */
+.order__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .5rem;
+}
+
+/* Each product row */
+.order__item {
+  padding: .6rem .75rem;
+  border: 1px solid rgba(148,163,184,.18);
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.12)),
+    var(--bg, #0b1220);
+  /* we can’t split title/qty without changing markup, so keep as single line */
+  font-size: .95rem;
+  opacity: .95;
+}
+
+/* Hover polish to mirror your card hover vibe */
+.order__item:hover {
+  border-color: rgba(94,234,212,.35);
+  box-shadow: 0 6px 16px rgba(2, 6, 23, .35);
+  transform: translateY(-1px);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .order__id { margin-bottom: .6rem; }
 }

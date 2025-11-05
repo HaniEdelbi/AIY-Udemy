@@ -14,22 +14,40 @@
           <!-- Ensure full-width class is applied -->
           <div class="card__header">
             <h2 class="cart__title">
-              <span class="cart__name"><%= p.title %></span>
+              <span class="cart__name"><%= p.productId.title %></span>
             </h2>
           </div>
           <div class="card__content">
-            <p class="cart__qty">Quantity: <%= p.cartItem.quantity %></p>
+            <div class="qty">
+              <!-- Decrease -->
+              <form class="qty__form" action="/cart-decrement-item" method="post">
+                <input type="hidden" name="productId" value="<%= p.productId._id %>">
+                <button class="qty__btn qty__btn--dec" aria-label="Decrease quantity" <%= p.quantity <= 1 ? 'disabled' : '' %>>
+                  &minus;
+                </button>
+              </form>
+
+              <!-- Current quantity -->
+              <span class="badge"><%= p.quantity %></span>
+
+              <!-- Increase -->
+              <form class="qty__form" action="/cart-increment-item" method="post">
+                <input type="hidden" name="productId" value="<%= p.productId._id %>">
+                <button class="qty__btn qty__btn--inc" aria-label="Increase quantity">+</button>
+              </form>
+            </div>
           </div>
           <form class="cart__actions" action="/cart-delete-item" method="post">
-            <input type="hidden" name="productId" value="<%= p.id %>">
+            <input type="hidden" name="productId" value="<%= p.productId._id %>">
             <button class="btn btn--danger" type="submit">Delete</button>
           </form>
         </li>
         <% }); %>
       </ul>
-      <div class="centered"> <!-- Centering div -->
+      <div class="centered">
+        <!-- Centering div -->
         <form action="/create-order" method="post">
-          <button class="btn btn--success order-now" type="submit">Order Now!</button> <!-- Added order-now class -->
+          <button class="btn btn--success order-now" type="submit">Order Now!</button>
         </form>
       </div>
       <% } else { %>

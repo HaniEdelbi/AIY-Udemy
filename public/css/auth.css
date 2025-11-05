@@ -1,0 +1,117 @@
+/* ===== Login form (matches your theme) ===== */
+:root{
+  --field-bg: rgba(2,6,23,.35);
+  --field-border: rgba(148,163,184,.22);
+  --field-border-hover: rgba(34,211,238,.45);
+  --field-placeholder: rgba(148,163,184,.7);
+  --error: #ef4444;
+}
+
+/* Center the form and give it a card look */
+.login-form{
+  width: min(520px, 92%);
+  margin: 2.25rem auto 3rem;
+  padding: 1.1rem 1.1rem 1.2rem;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.12)),
+    var(--bg);
+  border: 1px solid rgba(148,163,184,.18);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Stack fields with comfortable spacing */
+.form-control{
+  display: grid;
+  gap: .45rem;
+  margin-bottom: .9rem;
+}
+
+.form-control:last-of-type{
+  margin-bottom: 1.1rem;
+}
+
+/* Labels */
+.form-control label{
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: var(--text);
+}
+
+/* Inputs */
+.form-control input{
+  appearance: none;
+  width: 100%;
+  padding: .7rem .85rem;
+  border-radius: calc(var(--radius) - 6px);
+  border: 1px solid var(--field-border);
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.06)), var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.form-control input::placeholder{
+  color: var(--field-placeholder);
+}
+
+/* Hover / focus ring to match accent */
+.form-control input:hover{
+  border-color: rgba(148,163,184,.32);
+}
+.form-control input:focus{
+  border-color: var(--field-border-hover);
+  box-shadow: 0 0 0 3px rgba(34,211,238,.20);
+}
+
+/* Error state helper (optional) */
+.form-control input.input--error{
+  border-color: rgba(239,68,68,.65);
+  box-shadow: 0 0 0 3px rgba(239,68,68,.18);
+}
+.form-control .error-text{
+  color: var(--error);
+  font-size: .9rem;
+}
+
+/* Submit button: reuse your .btn style; full width looks nice */
+.login-form .btn{
+  width: 100%;
+  padding: .75rem 1rem;
+}
+
+/* Small helper row (forgot password / signup) if you add it later */
+.form-helper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: .75rem;
+  font-size: .92rem;
+  color: var(--muted);
+}
+.form-helper a{
+  color: var(--link);
+  text-decoration: none;
+}
+.form-helper a:hover{
+  text-decoration: underline;
+}
+
+/* Light mode tweaks (inherits your variables automatically) */
+@media (prefers-color-scheme: light){
+  .login-form{
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.04)),
+      var(--bg);
+    border-color: rgba(15,23,42,.10);
+  }
+  .form-control input{
+    background: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.03)), var(--bg);
+    border-color: rgba(15,23,42,.12);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .form-control input, .login-form { transition: none !important; }
+}

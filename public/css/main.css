@@ -443,3 +443,16 @@ main.centered p{
   line-height: 1.6;
   font-size: .98rem;
 }
+
+
+.main-header__item-list--right {
+  grid-column: 3;
+  justify-self: end;
+  margin-right: 5vw;    /* push it ~5% in from the edge */
+}
+
+/* optional: cap it on huge screens so it doesn't look too far in */
+@media (min-width: 1400px){
+  .main-header__item-list--right { margin-right: 40px; }
+}
+
