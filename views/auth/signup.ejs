@@ -1,0 +1,65 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/forms.css">
+<link rel="stylesheet" href="/css/auth.css">
+
+</head>
+
+<body>
+  <%- include('../includes/navigation.ejs') %>
+
+  <main class="auth">
+    <section class="auth__card">
+      <h1 class="auth__title">Create your account</h1>
+      <p class="auth__subtitle">Join the shop and start adding favorites in seconds.</p>
+
+      <% if (errorMessage) { %>
+      <div class="error" style="margin-bottom:.5rem;"><%= errorMessage %></div>
+      <% } %>
+
+      <form class="auth__form" action="/signup" method="POST" novalidate>
+        <!-- Name -->
+        <div class="field">
+          <label for="name">Name</label>
+          <input class="input" type="text" id="name" name="name" placeholder="Jane Doe" value="<%= (oldInput && oldInput.name) || '' %>" required />
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <label for="email">Email</label>
+          <input class="input" type="email" id="email" name="email" placeholder="you@example.com" value="<%= (oldInput && oldInput.email) || '' %>" required />
+        </div>
+
+        <!-- Password -->
+        <div class="field field--password">
+          <label for="password">Password</label>
+          <input class="input" type="password" id="password" name="password" placeholder="••••••••" required />
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="field field--password">
+          <label for="confirmPassword">Confirm Password</label>
+          <input class="input" type="password" id="confirmPassword" name="confirmPassword" placeholder="Repeat your password" required />
+        </div>
+
+        <!-- Terms (optional, but looks nice with your styles) -->
+        <label class="check">
+          <input type="checkbox" name="terms" required />
+          <span>
+            I accept the
+            <a class="link-accent" href="/terms">Terms</a> &
+            <a class="link-accent" href="/privacy">Privacy</a>.
+          </span>
+        </label>
+
+        <div class="auth__actions">
+          <button class="btn-auth" type="submit">Sign up</button>
+          <a class="link-muted" href="/login">Already have an account?</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <%- include('../includes/end.ejs') %>
+</body>
+
+</html>

@@ -456,3 +456,71 @@ main.centered p{
   .main-header__item-list--right { margin-right: 40px; }
 }
 
+/* make a shared nav-link class for anchors and buttons */
+.main-header__item .nav-link,
+.main-header__item a{
+  position: relative;
+  display: inline-block;
+  padding: .55rem .8rem;
+  text-decoration: none;
+  color: var(--link);
+  border-radius: 10px;
+  transition: color .2s ease, background .2s ease, transform .2s ease;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+
+/* reset button look so it matches links */
+.nav-link--button{
+  appearance: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;           /* inherit font from link styles */
+  color: inherit;
+}
+
+/* underline reveal for both */
+.main-header__item .nav-link::after,
+.main-header__item a::after{
+  content: "";
+  position: absolute;
+  left: .8rem;
+  right: .8rem;
+  bottom: .35rem;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--accent);
+  transition: transform .22s ease;
+}
+
+/* hover/active for both */
+.main-header__item .nav-link:hover,
+.main-header__item a:hover,
+.main-header__item .nav-link:active,
+.main-header__item a:active{
+  background: rgba(34,211,238,.08);
+  color: var(--text);
+}
+.main-header__item .nav-link:hover::after,
+.main-header__item a:hover::after{
+  transform: scaleX(1);
+}
+
+/* active state class (you can add it manually if needed) */
+.main-header__item .nav-link.active,
+.main-header__item a.active{
+  color: var(--text);
+  background: rgba(34,211,238,.10);
+}
+.main-header__item .nav-link.active::after,
+.main-header__item a.active::after{
+  transform: scaleX(1);
+}
+
+/* keep the logout form inline so spacing matches */
+.nav-form{
+  display: inline; 
+  margin: 0;
+}
