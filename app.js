@@ -1,4 +1,3 @@
-
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -7,16 +6,14 @@ const User = require("./models/user");
 const session = require("express-session");
 const MongoDbStore = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose");
+const csrf = require("csurf");
 
-const MONGODB_URI = "mongodb+srv://HaniEdelbi:hani54321@udemyaiy.b3jjitl.mongodb.net/?appName=UdemyAIY";
+const MONGODB_URI =
+  "mongodb+srv://HaniEdelbi:hani54321@udemyaiy.b3jjitl.mongodb.net/?appName=UdemyAIY";
 const app = express();
 const store = new MongoDbStore({ uri: MONGODB_URI, collection: "sessions" });
 
-const adminRoutes = require("./routes/admin");
-const login = require("./routes/auth");
-const shopRoutes = require("./routes/shop");
-const user = require("./models/user");
-const authRoutes = require("./routes/auth");
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -29,12 +26,30 @@ app.use(
   })
 );
 
+app.use(csrf());
+
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
+const adminRoutes = require("./routes/admin");
+const login = require("./routes/auth");
+const shopRoutes = require("./routes/shop");
+const user = require("./models/user");
+const authRoutes = require("./routes/auth");
+
+
+
 app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
   }
-  User.findById(req.session.user._id)
+  User.findById(req.session.user)
     .then((user) => {
+      if (!user) {
+        return next();
+      }
       req.user = user;
       next();
     })

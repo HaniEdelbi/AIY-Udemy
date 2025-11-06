@@ -1,4 +1,3 @@
-
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
@@ -13,13 +12,32 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.postLogin = (req, res, next) => {
-  User.findById("690a115f1ef54a6cf1ba4e93")
+  const { email, password } = req.body;
+  User.findOne({ email: email })
     .then((user) => {
-      req.session.isLoggedIn = true;
-      req.session.user = user;
-      req.session.save((err) => {
-        console.log(err);
-        res.redirect("/");
+      if (!user) {
+        return res.status(401).render("auth/login", {
+          path: "/login",
+          pageTitle: "Login",
+          isAuthenticated: false,
+          errorMessage: "Invalid email or password.",
+        });
+      }
+      bcrypt.compare(password, user.password).then((isMatch) => {
+        if (!isMatch) {
+          return res.status(401).render("auth/login", {
+            path: "/login",
+            pageTitle: "Login",
+            isAuthenticated: false,
+            errorMessage: "Invalid email or password.",
+          });
+        }
+        req.session.isLoggedIn = true;
+        req.session.user = user._id;
+        req.session.save((err) => {
+          console.log(err);
+          res.redirect("/");
+        });
       });
     })
     .catch((err) => console.log(err));
@@ -69,20 +87,22 @@ exports.postSignup = (req, res, next) => {
         });
       }
 
-      const user = new User({
-        name,
-        email,
-        password,
-        cart: { items: [] },
+      // Hash the password before saving
+      return bcrypt.hash(password, 12).then((hashedPassword) => {
+        const user = new User({
+          name,
+          email,
+          password: hashedPassword,
+          cart: { items: [] },
+        });
+        return user.save();
       });
-
-      return user.save();
     })
     .then((user) => {
       if (!user) return; // already responded above on duplicate
       // auto-login after signup (optional)
       req.session.isLoggedIn = true;
-      req.session.user = user;
+      req.session.user = user._id;
       req.session.save(() => {
         res.redirect("/login");
       });

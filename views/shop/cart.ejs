@@ -21,6 +21,7 @@
             <div class="qty">
               <!-- Decrease -->
               <form class="qty__form" action="/cart-decrement-item" method="post">
+                
                 <input type="hidden" name="productId" value="<%= p.productId._id %>">
                 <button class="qty__btn qty__btn--dec" aria-label="Decrease quantity" <%= p.quantity <= 1 ? 'disabled' : '' %>>
                   &minus;
@@ -32,12 +33,14 @@
 
               <!-- Increase -->
               <form class="qty__form" action="/cart-increment-item" method="post">
+                
                 <input type="hidden" name="productId" value="<%= p.productId._id %>">
                 <button class="qty__btn qty__btn--inc" aria-label="Increase quantity">+</button>
               </form>
             </div>
           </div>
           <form class="cart__actions" action="/cart-delete-item" method="post">
+            
             <input type="hidden" name="productId" value="<%= p.productId._id %>">
             <button class="btn btn--danger" type="submit">Delete</button>
           </form>
@@ -47,6 +50,7 @@
       <div class="centered">
         <!-- Centering div -->
         <form action="/create-order" method="post">
+          
           <button class="btn btn--success order-now" type="submit">Order Now!</button>
         </form>
       </div>

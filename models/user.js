@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -32,6 +33,7 @@ const userSchema = new Schema({
 
 const { Types } = require("mongoose");
 const { ObjectId } = Types;
+
 
 userSchema.methods.addToCart = async function (product) {
   const userId = typeof this._id === "string" ? new ObjectId(this._id) : this._id;

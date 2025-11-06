@@ -1,25 +1,30 @@
 <%- include('../includes/head.ejs') %>
-<%  %>
+<link rel="stylesheet" href="/css/orders.css">
 </head>
 
 <body>
   <%- include('../includes/navigation.ejs') %>
   <main>
+    <div class="orders__header">
+      <h1>Your Orders</h1>
+      <span class="orders__counter">Total Orders: <%= orders.length %></span>
+    </div>
     <% if (orders.length <= 0) { %>
-    <h1 class="orders__empty">Nothing there!</h1>
+      <h1 class="orders__empty">Nothing there!</h1>
     <% } else { %>
-    <ul class="orders__list" style="gap: 1.75rem;">
-      <% orders.forEach(order => { %>
-      <li class="card order-card" style="margin-bottom: 0.75rem;">
-        <h1 class="order__id"># <%= order.id %></h1>
-        <ul class="order__items">
-          <% order.products.forEach(p => { %>
-          <li class="order__item"><%= p.product.title %> (<%= p.quantity %>)</li>
-          <% }); %>
-        </ul>
-      </li>
-      <% }); %>
-    </ul>
+      <ul class="orders__list">
+        <% orders.forEach(order => { %>
+          <li class="order-card">
+            <div class="order__id">Order ID: <%= order._id || order.id %></div>
+            <div class="order__user">Ordered by: <%= order.user && order.user.name ? order.user.name : 'Unknown' %></div>
+            <ul class="order__items">
+              <% order.products.forEach(p => { %>
+                <li class="order__item"><%= p.product.title %> (<%= p.quantity %>)</li>
+              <% }); %>
+            </ul>
+          </li>
+        <% }); %>
+      </ul>
     <% } %>
   </main>
   <%- include('../includes/end.ejs') %>
