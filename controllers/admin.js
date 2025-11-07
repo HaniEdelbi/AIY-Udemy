@@ -10,14 +10,19 @@ exports.getAddProduct = (req, res, next) => {
     path: "/admin/add-product",
     editing: false,
     isAuthenticated: req.session.isLoggedIn,
+    csrfToken: req.csrfToken(),
   });
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const title = req.body.title;
-  const imageURL = req.body.imageURL;
+  const title = req.body.title && req.body.title.trim();
+  const imageURL = req.body.imageURL && req.body.imageURL.trim();
   const price = req.body.price;
-  const description = req.body.description;
+  const description = req.body.description && req.body.description.trim();
+  if (!title || !imageURL || !price || !description || isNaN(price)) {
+    req.flash("error", "Please provide valid product details.");
+    return res.redirect("/admin/add-product");
+  }
   const product = new Product({
     title: title,
     price: price,
@@ -34,6 +39,8 @@ exports.postAddProduct = (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
+      req.flash("error", "Failed to create product.");
+      res.redirect("/admin/add-product");
     });
 };
 
@@ -54,6 +61,7 @@ exports.getEditProduct = (req, res, next) => {
         editing: editMode,
         product: product,
         isAuthenticated: req.session.isLoggedIn,
+        csrfToken: req.csrfToken(),
       });
     })
     .catch((err) => console.log(err));
@@ -61,13 +69,26 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  const updatedTitle = req.body.title;
+  const updatedTitle = req.body.title && req.body.title.trim();
   const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageURL;
-  const updatedDesc = req.body.description;
+  const updatedImageUrl = req.body.imageURL && req.body.imageURL.trim();
+  const updatedDesc = req.body.description && req.body.description.trim();
+
+  if (!updatedTitle || !updatedImageUrl || !updatedPrice || !updatedDesc || isNaN(updatedPrice)) {
+    req.flash("error", "Please provide valid product details.");
+    return res.redirect(`/admin/edit-product/${prodId}?edit=true`);
+  }
 
   Product.findById(prodId)
     .then((product) => {
+      if (!product) {
+        req.flash("error", "Product not found.");
+        return res.redirect("/admin/products");
+      }
+      if (product.userId.toString() !== req.user._id.toString()) {
+        req.flash("error", "Not authorized to edit this product.");
+        return res.redirect("/admin/products");
+      }
       product.title = updatedTitle;
       product.imageURL = updatedImageUrl;
       product.price = updatedPrice;
@@ -75,10 +96,15 @@ exports.postEditProduct = (req, res, next) => {
       return product.save();
     })
     .then((result) => {
+      if (!result) return; // already redirected
       console.log("UPDATED PRODUCT!");
       res.redirect("/admin/products");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      req.flash("error", "Failed to update product.");
+      res.redirect(`/admin/edit-product/${prodId}?edit=true`);
+    });
 };
 
 exports.getProducts = (req, res, next) => {
@@ -91,6 +117,7 @@ exports.getProducts = (req, res, next) => {
         pageTitle: "Admin Products",
         path: "/admin/products",
         isAuthenticated: req.session.isLoggedIn,
+        csrfToken: req.csrfToken(),
       });
     })
     .catch((err) => console.log(err));
@@ -98,10 +125,20 @@ exports.getProducts = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findByIdAndDelete(prodId)
-    .then(() => {
-      console.log("DESTROYED PRODUCT");
-      res.redirect("/admin/products");
+  Product.findById(prodId)
+    .then((product) => {
+      if (!product) {
+        req.flash("error", "Product not found.");
+        return res.redirect("/admin/products");
+      }
+      if (product.userId.toString() !== req.user._id.toString()) {
+        req.flash("error", "Not authorized to delete this product.");
+        return res.redirect("/admin/products");
+      }
+      return Product.findByIdAndDelete(prodId).then(() => {
+        console.log("DESTROYED PRODUCT");
+        res.redirect("/admin/products");
+      });
     })
     .catch((err) => console.log(err));
 };
