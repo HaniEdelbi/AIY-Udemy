@@ -33,4 +33,15 @@
     <h1>No Products Found!</h1>
     <% } %>
   </main>
+  <section class="pagination">
+    <% if (hasPreviousPage) { %>
+    <a href="<%= basePath %>?page=<%= previousPage %>">&laquo; Prev</a>
+    <% } %>
+    <% for (let i = 1; i <= lastPage; i++) { %>
+    <a href="<%= basePath %>?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+    <% } %>
+    <% if (hasNextPage) { %>
+    <a href="<%= basePath %>?page=<%= nextPage %>">Next &raquo;</a>
+    <% } %>
+  </section>
   <%- include('../includes/end.ejs') %>

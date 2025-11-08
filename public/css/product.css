@@ -240,6 +240,32 @@ body{
   border-color: rgba(148,163,184,.55);
 }
 
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 2rem 0 1rem 0;
+}
+.pagination a {
+  display: inline-block;
+  padding: 0.6em 1.2em;
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(34,211,238,.08);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.pagination a:hover,
+.pagination a.active {
+  background: linear-gradient(180deg, #22d3ee, #06b6d4);
+  color: #0b1220;
+  border-color: #22d3ee;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   * { transition: none !important; }
