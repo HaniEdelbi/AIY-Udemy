@@ -1,3 +1,49 @@
+/* --- File Input Custom Styling --- */
+.form-control input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: .7rem .9rem;
+  background: var(--input-bg);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font: inherit;
+  margin-top: .2rem;
+  margin-bottom: .2rem;
+  transition: border-color .2s, box-shadow .2s;
+}
+.form-control input[type="file"]:focus-visible {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 4px rgba(34,211,238,.18);
+}
+.form-control input[type="file"]::-webkit-file-upload-button {
+  background: linear-gradient(180deg, #22d3ee, #06b6d4);
+  color: #0b1220;
+  border: none;
+  border-radius: 8px;
+  padding: .5rem 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: background .2s;
+}
+.form-control input[type="file"]:hover::-webkit-file-upload-button {
+  background: linear-gradient(180deg, #06b6d4, #22d3ee);
+}
+.form-control .image-preview {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.form-control .image-preview img {
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(34,211,238,.08);
+}
 :root{
   --bg: #0f172a;               /* slate-900 */
   --panel: #111827;            /* near-slate */

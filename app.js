@@ -1,3 +1,4 @@
+// ...existing code...
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -9,16 +10,42 @@ const mongoose = require("mongoose");
 
 const csrf = require("csurf");
 const flash = require("connect-flash");
+const multer = require("multer");
 
+// Set up multer for file uploads
 const MONGODB_URI =
   "mongodb+srv://HaniEdelbi:hani54321@udemyaiy.b3jjitl.mongodb.net/?appName=UdemyAIY";
 const app = express();
 const store = new MongoDbStore({ uri: MONGODB_URI, collection: "sessions" });
 
 const csrfProtection = csrf();
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/uploads");
+  },
+  filename: (req, file, cb) => {
+    const safeDate = new Date().toISOString().replace(/:/g, "-");
+    cb(null, safeDate + "-" + file.originalname);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ storage: fileStorage }).single("image"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/public/uploads", express.static(path.join(__dirname, "public/uploads")));
+
 app.use(
   session({
     secret: "my secret",
