@@ -49,8 +49,7 @@
       </ul>
       <div class="centered">
         <!-- Centering div -->
-        <form action="/create-order" method="post">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <form action="/checkout" method="get">
           <button class="btn btn--success order-now" type="submit">Order Now!</button>
         </form>
       </div>

@@ -1,0 +1,48 @@
+
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/cart.css">
+
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  <main class="cart">
+    <div class="cart__container">
+      <h1>Checkout</h1>
+      <% if(products && products.length > 0) { %>
+      <ul class="cart__list">
+        <% products.forEach(p => { %>
+        <li class="cart__item card full-width">
+          <div class="card__header">
+            <h2 class="cart__title">
+              <span class="cart__name"><%= p.productId.title %></span>
+            </h2>
+          </div>
+          <div class="card__content">
+            <span class="badge">Quantity: <%= p.quantity %></span>
+            <span class="cart__price">Price: $<%= p.productId.price %></span>
+          </div>
+        </li>
+        <% }) %>
+      </ul>
+      <div class="total">Total: $<%= totalSum %></div>
+
+      <div>
+
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button class="btn" type="submit" id="order-btn">Place Order</button>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script>
+          var stripe = Stripe('<%= stripePublicKey %>');
+          var orderBtn = document.getElementById('order-btn');
+          orderBtn.addEventListener('click', function() {
+            stripe.redirectToCheckout({
+              sessionId: '<%= sessionId %>'
+            });
+          });
+        </script>
+      </div>
+      <% } %>
+    </div>
+  </main>
+  <%- include('../includes/end.ejs') %>
+</body>
+</html>
