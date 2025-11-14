@@ -1,4 +1,4 @@
-const stripe = require('stripe')("sk_test_51SSDksRRkav6Ug14DRmflr3HJjCNOT9X78TNN2PrM7NQqSyvyUg20HrY5FazoHl5s1zZprRV60QbLRogW4TD7Uit00VOZul4ck");
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 const Product = require("../models/product");
 const Order = require("../models/order");
 
@@ -143,7 +143,7 @@ exports.getCheckout = (req, res, next) => {
         sessionId: session.id,
         isAuthenticated: req.session.isLoggedIn,
         csrfToken: req.csrfToken(),
-        stripePublicKey: 'pk_test_51SSDksRRkav6Ug14zJEhGQ353bNYs4wsPnEqiGYuN7E5IwjkeAvJULqnFB3wLJqihm7M90tQuG57eebg54OtTar300Guh87sdH'
+  stripePublicKey: process.env.STRIPE_PUBLIC_KEY
       });
     })
     .catch(err => {

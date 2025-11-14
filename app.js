@@ -7,16 +7,22 @@ const User = require("./models/user");
 const session = require("express-session");
 const MongoDbStore = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose");
+const fs = require("fs");
+
+const helmet = require("helmet");
+const compression = require("compression");
+const morgan = require("morgan");
 
 const csrf = require("csurf");
 const flash = require("connect-flash");
 const multer = require("multer");
 
 // Set up multer for file uploads
-const MONGODB_URI =
-  "mongodb+srv://HaniEdelbi:hani54321@udemyaiy.b3jjitl.mongodb.net/?appName=UdemyAIY";
+const MONGODB_URI = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@udemyaiy.b3jjitl.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?appName=UdemyAIY`;
 const app = express();
 const store = new MongoDbStore({ uri: MONGODB_URI, collection: "sessions" });
+
+console.log(process.env.NODE_ENV);
 
 const csrfProtection = csrf();
 const fileStorage = multer.diskStorage({
@@ -44,7 +50,10 @@ const fileFilter = (req, file, cb) => {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: fileStorage }).single("image"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/public/uploads", express.static(path.join(__dirname, "public/uploads")));
+app.use(
+  "/public/uploads",
+  express.static(path.join(__dirname, "public/uploads"))
+);
 
 app.use(
   session({
@@ -63,6 +72,15 @@ const login = require("./routes/auth");
 const shopRoutes = require("./routes/shop");
 const user = require("./models/user");
 const authRoutes = require("./routes/auth");
+
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
+
+app.use(helmet());
+app.use(compression());
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use((req, res, next) => {
   if (!req.session.user) {
@@ -91,7 +109,10 @@ app.use(errorController.getPNF);
 mongoose
   .connect(MONGODB_URI)
   .then((result) => {
-    app.listen(3000);
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
   })
   .catch((err) => {
     console.log(err);

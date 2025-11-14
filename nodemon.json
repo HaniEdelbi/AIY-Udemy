@@ -1,0 +1,10 @@
+{
+  "env": {
+    "MONGODB_USER": "HaniEdelbi",
+    "MONGODB_PASSWORD": "hani54321",
+    "MONGO_DEFAULT_DATABASE": "shop",
+    "STRIPE_KEY": "sk_test_51SSDksRRkav6Ug14DRmflr3HJjCNOT9X78TNN2PrM7NQqSyvyUg20HrY5FazoHl5s1zZprRV60QbLRogW4TD7Uit00VOZul4ck",
+    "STRIPE_PUBLIC_KEY": "pk_test_51SSDksRRkav6Ug14zJEhGQ353bNYs4wsPnEqiGYuN7E5IwjkeAvJULqnFB3wLJqihm7M90tQuG57eebg54OtTar300Guh87sdH",
+    "PORT": "3000"
+  }
+}
